@@ -28,14 +28,14 @@ public class DeviceController {
         DeviceResponde deviceResponde = this.deviceService.save(request);
         return ResponseEntity.ok(deviceResponde);
     }
-    @GetMapping("/pump/{id}")
-    public ResponseEntity<?> getDeviceByPumpId(@PathVariable UUID id) {
-        List<DeviceResponde> deviceResponses = deviceService.getDeviceByPumpId(id);
+    @GetMapping
+    public ResponseEntity<?> getDeviceByPumpId(@RequestParam UUID pumpId) {
+        List<DeviceResponde> deviceResponses = deviceService.getDeviceByPumpId(pumpId);
         return ResponseEntity.ok(deviceResponses);
     }
-    @GetMapping("/pump/{id}/{type}")
-    public ResponseEntity<?> getDeviceByPumpIdAndType(@PathVariable UUID id, @PathVariable Type type) {
-        DeviceResponde deviceResponses = deviceService.getDeviceByPumpIdAndType(id, type);
+    @GetMapping
+    public ResponseEntity<?> getDeviceByPumpIdAndType(@RequestParam UUID pumpId, @RequestParam Type type) {
+        DeviceResponde deviceResponses = deviceService.getDeviceByPumpIdAndType(pumpId, type);
         return ResponseEntity.ok(deviceResponses);
     }
     @DeleteMapping("/{id}")
