@@ -7,6 +7,8 @@ import com.Project.SmartGarden.Entity.User;
 import com.Project.SmartGarden.Mapper.UserMapper;
 import com.Project.SmartGarden.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +33,8 @@ public class UserService {
     }
     public UserRespone createUser(CreateUserRequest request) {
         User user = userMapper.toEntity(request);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User returnUser = this.userRepository.save(user);
         return userMapper.toDTO(returnUser);
     }
