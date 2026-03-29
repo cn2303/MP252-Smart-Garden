@@ -14,10 +14,9 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    @Autowired
     final private UserRepository userRepository;
     final private UserMapper userMapper;
-
+    @Autowired
     public UserService(UserRepository userRepository,  UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;

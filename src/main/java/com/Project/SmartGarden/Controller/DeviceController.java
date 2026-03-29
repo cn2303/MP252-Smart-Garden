@@ -4,6 +4,7 @@ import com.Project.SmartGarden.DTO.Request.DeviceRequest;
 import com.Project.SmartGarden.DTO.Respone.DeviceResponde;
 import com.Project.SmartGarden.Entity.Type;
 import com.Project.SmartGarden.Service.DeviceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RequestMapping("/api/device")
 public class DeviceController {
     private final DeviceService deviceService;
+    @Autowired
     public DeviceController(DeviceService deviceService) {
         this.deviceService = deviceService;
     }

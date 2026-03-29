@@ -6,6 +6,7 @@ import com.Project.SmartGarden.Entity.Device;
 import com.Project.SmartGarden.Entity.Type;
 import com.Project.SmartGarden.Mapper.DeviceMapper;
 import com.Project.SmartGarden.Repository.DeviceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class DeviceService {
     private final DeviceRepository deviceRepository;
     private final DeviceMapper deviceMapper;
+    @Autowired
     public DeviceService(DeviceRepository deviceRepository) {
         this.deviceRepository = deviceRepository;
         this.deviceMapper = new DeviceMapper();

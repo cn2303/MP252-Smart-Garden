@@ -2,6 +2,7 @@ package com.Project.SmartGarden.Service;
 
 import com.Project.SmartGarden.Entity.Phone;
 import com.Project.SmartGarden.Repository.PhoneRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Service
 public class PhoneService {
     private final PhoneRepository phoneRepository;
-
+    @Autowired
     public PhoneService(PhoneRepository phoneRepository) {
         this.phoneRepository = phoneRepository;
     }

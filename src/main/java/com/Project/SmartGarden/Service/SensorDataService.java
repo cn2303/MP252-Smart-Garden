@@ -2,6 +2,7 @@ package com.Project.SmartGarden.Service;
 
 import com.Project.SmartGarden.Entity.SensorData;
 import com.Project.SmartGarden.Repository.SensorDataRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Service
 public class SensorDataService {
     private final SensorDataRepository sensorDataRepository;
+    @Autowired
     public SensorDataService(SensorDataRepository sensorDataRepository) {
         this.sensorDataRepository = sensorDataRepository;
     }

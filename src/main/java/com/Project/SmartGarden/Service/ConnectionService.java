@@ -6,6 +6,7 @@ import com.Project.SmartGarden.DTO.Respone.ConnectionResponse;
 import com.Project.SmartGarden.Entity.Connection;
 import com.Project.SmartGarden.Mapper.ConnectionMapper;
 import com.Project.SmartGarden.Repository.ConnectionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class ConnectionService {
     private final ConnectionRepository connectionRepository;
     private final ConnectionMapper connectionMapper;
+    @Autowired
     public ConnectionService(ConnectionRepository connectionRepository,  ConnectionMapper connectionMapper) {
         this.connectionRepository = connectionRepository;
         this.connectionMapper = connectionMapper;

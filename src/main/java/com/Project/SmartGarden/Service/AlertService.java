@@ -2,6 +2,7 @@ package com.Project.SmartGarden.Service;
 
 import com.Project.SmartGarden.Entity.Alert;
 import com.Project.SmartGarden.Repository.AlertRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -9,6 +10,7 @@ import java.util.UUID;
 @Service
 public class AlertService {
     private final AlertRepository alertRepository;
+    @Autowired
     public AlertService(AlertRepository alertRepository) {
         this.alertRepository = alertRepository;
     }

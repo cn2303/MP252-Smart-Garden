@@ -2,6 +2,7 @@ package com.Project.SmartGarden.Controller;
 
 import com.Project.SmartGarden.Entity.PumpLog;
 import com.Project.SmartGarden.Service.PumpLogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 @RequestMapping("/api/pumpLog")
 public class PumpLogController {
     private final PumpLogService pumpLogService;
+    @Autowired
     public PumpLogController(PumpLogService pumpLogService) {
         this.pumpLogService = pumpLogService;
     }

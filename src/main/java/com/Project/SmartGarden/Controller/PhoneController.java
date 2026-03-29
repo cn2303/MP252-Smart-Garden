@@ -2,6 +2,7 @@ package com.Project.SmartGarden.Controller;
 
 import com.Project.SmartGarden.Entity.Phone;
 import com.Project.SmartGarden.Service.PhoneService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @RequestMapping("/api/phone")
 public class PhoneController {
     private final PhoneService phoneService;
+    @Autowired
     public PhoneController(PhoneService phoneService) {
         this.phoneService = phoneService;
     }

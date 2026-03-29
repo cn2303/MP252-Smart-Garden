@@ -13,6 +13,7 @@ import java.util.UUID;
 @RequestMapping
 public class AlertController {
     private final AlertService alertService;
+    @Autowired
     public AlertController(AlertService alertService) {
         this.alertService = alertService;
     }

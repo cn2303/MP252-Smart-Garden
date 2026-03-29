@@ -4,6 +4,7 @@ import com.Project.SmartGarden.DTO.Request.ConnectionRequest;
 import com.Project.SmartGarden.DTO.Request.ConnectionUpdateRequest;
 import com.Project.SmartGarden.DTO.Respone.ConnectionResponse;
 import com.Project.SmartGarden.Service.ConnectionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RequestMapping("/api/connection")
 public class ConnectionController {
     private final ConnectionService connectionService;
+    @Autowired
     public ConnectionController(ConnectionService connectionService) {
         this.connectionService = connectionService;
     }

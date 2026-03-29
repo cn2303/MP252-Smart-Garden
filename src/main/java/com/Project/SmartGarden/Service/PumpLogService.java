@@ -2,6 +2,7 @@ package com.Project.SmartGarden.Service;
 
 import com.Project.SmartGarden.Entity.PumpLog;
 import com.Project.SmartGarden.Repository.PumpLogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Service
 public class PumpLogService {
     private final PumpLogRepository pumpLogRepository;
+    @Autowired
     public PumpLogService(PumpLogRepository pumpLogRepository) {
         this.pumpLogRepository = pumpLogRepository;
     }

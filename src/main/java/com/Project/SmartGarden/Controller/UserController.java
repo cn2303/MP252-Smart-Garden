@@ -15,6 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }

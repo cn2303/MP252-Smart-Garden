@@ -6,6 +6,7 @@ import com.Project.SmartGarden.Entity.Pump;
 import com.Project.SmartGarden.Entity.PumpStatus;
 import com.Project.SmartGarden.Mapper.PumpMapper;
 import com.Project.SmartGarden.Repository.PumpRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class PumpService {
     private final PumpRepository pumpRepository;
     private final PumpMapper pumpMapper;
+    @Autowired
     public PumpService(PumpRepository pumpRepository,  PumpMapper pumpMapper) {
         this.pumpRepository = pumpRepository;
         this.pumpMapper =  pumpMapper;

@@ -2,6 +2,7 @@ package com.Project.SmartGarden.Controller;
 
 import com.Project.SmartGarden.Entity.SensorData;
 import com.Project.SmartGarden.Service.SensorDataService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/sensor/data")
 public class SensorDataController {
     private final SensorDataService sensorDataService;
+    @Autowired
     public SensorDataController(SensorDataService sensorDataService) {
         this.sensorDataService = sensorDataService;
     }
