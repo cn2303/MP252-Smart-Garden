@@ -28,12 +28,12 @@ public class DeviceController {
         DeviceResponde deviceResponde = this.deviceService.save(request);
         return ResponseEntity.ok(deviceResponde);
     }
-    @GetMapping
+    @GetMapping("/by-pump")
     public ResponseEntity<?> getDeviceByPumpId(@RequestParam UUID pumpId) {
         List<DeviceResponde> deviceResponses = deviceService.getDeviceByPumpId(pumpId);
         return ResponseEntity.ok(deviceResponses);
     }
-    @GetMapping
+    @GetMapping("/by-pump-and-type")
     public ResponseEntity<?> getDeviceByPumpIdAndType(@RequestParam UUID pumpId, @RequestParam Type type) {
         DeviceResponde deviceResponses = deviceService.getDeviceByPumpIdAndType(pumpId, type);
         return ResponseEntity.ok(deviceResponses);
