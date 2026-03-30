@@ -13,14 +13,14 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Connection")
+@Table(name = "connections")
 public class Connection {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "conn_id")
+    private Integer id;
     @Column(name = "user_id")
-    private UUID userId;
+    private Integer userId;
     @Column(name = "broker_name")
     private String brokerName;
     @Column(name = "feed")

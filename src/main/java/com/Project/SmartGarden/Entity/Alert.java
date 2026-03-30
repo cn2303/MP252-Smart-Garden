@@ -14,15 +14,15 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Alert")
+@Table(name = "alerts")
 public class Alert {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "alert_id")
-    private UUID id;
+    private Integer id;
     @Column(name = "device_id")
-    private UUID deviceId;
-    @Column(name = "type")
+    private Integer deviceId;
+    @Column(name = "type", columnDefinition = "measurement_type_enum")
     @Enumerated(EnumType.STRING)
     private Type type;
     @Column(name = "value")

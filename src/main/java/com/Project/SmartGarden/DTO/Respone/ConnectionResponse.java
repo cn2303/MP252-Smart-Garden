@@ -11,8 +11,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConnectionResponse {
-    private UUID connectionId;
-    private UUID userId;
+    private Integer connectionId;
+    private Integer userId;
     private String broker_name;
     private String feed;
     private String addr;

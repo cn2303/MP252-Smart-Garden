@@ -13,16 +13,16 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Phone")
+@Table(name = "phones")
 public class Phone {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "phone_id")
-    private UUID id;
+    private Integer id;
     @Column(name = "phone_name")
     private String name;
     @Column(name = "user_id")
-    private UUID userId;
+    private Integer userId;
     @Column(name = "token")
     private String token;
 }

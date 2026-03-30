@@ -15,11 +15,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeviceResponde {
-    private UUID id;
+    private Integer id;
     private String name;
     private Type type;
-    private UUID connectionId;
-    private UUID pumpId;
+    private Integer connectionId;
+    private Integer pumpId;
     private Status status;
     private LocalDateTime lastSeen;
 }

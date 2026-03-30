@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConnectionRequest {
-    private UUID userId;
+    private Integer userId;
     private String brokerName;
     private String feed;
     private String password;

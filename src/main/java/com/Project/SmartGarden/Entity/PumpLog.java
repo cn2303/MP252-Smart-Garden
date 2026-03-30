@@ -15,25 +15,25 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "PumpLog")
+@Table(name = "pump_logs")
 public class PumpLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "log_id")
-    private UUID id;
+    private Integer id;
     @Column(name = "pump_id")
-    private UUID pumpId;
+    private Integer pumpId;
     @Column(name = "user_id")
-    private UUID userId;
-    @Column(name = "action")
+    private Integer userId;
+    @Column(name = "action", columnDefinition = "pump_state_enum")
     @Enumerated(EnumType.STRING)
     private PumpStatus action;
-    @Column(name = "mode")
+    @Column(name = "mode" ,columnDefinition = "pump_mode_enum")
     @Enumerated(EnumType.STRING)
     private Mode mode;
     @Column(name = "water_volume")
     private double waterVolume;
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "pump_log_status_enum")
     @Enumerated(EnumType.STRING)
     private ActionStatus status;
     @Column(name = "created_at")

@@ -19,10 +19,10 @@ public class SensorDataService {
     public SensorData saveSensorData(SensorData sensorData) {
         return this.sensorDataRepository.save(sensorData);
     }
-    public List<SensorData> findSensorDataByDeviceId(UUID deviceId) {
+    public List<SensorData> findSensorDataByDeviceId(Integer deviceId) {
         return this.sensorDataRepository.findByDeviceId(deviceId);
     }
-    public List<SensorData> findSensorDataByDeviceIdAndCreatedAtBetween(UUID deviceId, LocalDateTime start, LocalDateTime end) {
+    public List<SensorData> findSensorDataByDeviceIdAndCreatedAtBetween(Integer deviceId, LocalDateTime start, LocalDateTime end) {
         return this.sensorDataRepository.findByDeviceIdAndCreatedAtBetween(deviceId, start, end);
     }
 }

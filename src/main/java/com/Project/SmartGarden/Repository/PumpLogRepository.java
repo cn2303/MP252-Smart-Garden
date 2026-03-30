@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface PumpLogRepository extends JpaRepository<PumpLog, UUID> {
-    List<PumpLog> findByPumpId(UUID pumpId);
-    List<PumpLog> findByUserId(UUID userId);
+public interface PumpLogRepository extends JpaRepository<PumpLog, Integer> {
+    List<PumpLog> findByPumpId(Integer pumpId);
+    List<PumpLog> findByUserId(Integer userId);
 }

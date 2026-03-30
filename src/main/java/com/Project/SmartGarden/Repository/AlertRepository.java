@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface AlertRepository  extends JpaRepository<Alert, UUID> {
-    List<Alert> findByDeviceId(UUID deviceId);
+public interface AlertRepository  extends JpaRepository<Alert, Integer> {
+    List<Alert> findByDeviceId(Integer deviceId);
 }

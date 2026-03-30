@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 @Repository
-public interface ConnectionRepository extends JpaRepository<Connection, UUID> {
-    public List<Connection> findByUserId(UUID userId);
+public interface ConnectionRepository extends JpaRepository<Connection, Integer> {
+    public List<Connection> findByUserId(Integer userId);
 }

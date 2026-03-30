@@ -20,12 +20,12 @@ public class PumpController {
         this.pumpService = pumpService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPumpById(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> getPumpById(@PathVariable("id") Integer id) {
         PumpResponse pumpResponse = this.pumpService.getByPumpId(id);
         return ResponseEntity.ok(pumpResponse);
     }
     @GetMapping("/user/{userid}")
-    public ResponseEntity<?> getPumpByUserId(@PathVariable("userid") UUID userid) {
+    public ResponseEntity<?> getPumpByUserId(@PathVariable("userid") Integer userid) {
         List<PumpResponse> pumpResponseList = this.pumpService.getPumpByUserId(userid);
         return ResponseEntity.ok(pumpResponseList);
     }
@@ -40,7 +40,7 @@ public class PumpController {
         return ResponseEntity.ok(pumpResponse);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePump(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> deletePump(@PathVariable("id") Integer id) {
         this.pumpService.delete(id);
         return ResponseEntity.ok().build();
     }

@@ -22,11 +22,11 @@ public class PumpService {
         this.pumpRepository = pumpRepository;
         this.pumpMapper =  pumpMapper;
     }
-    public PumpResponse getByPumpId(UUID pumpId) {
+    public PumpResponse getByPumpId(Integer pumpId) {
         Pump pump = this.pumpRepository.findById(pumpId).orElse(null);
         return pumpMapper.toDTO(pump);
     }
-    public List<PumpResponse> getPumpByUserId(UUID id) {
+    public List<PumpResponse> getPumpByUserId(Integer id) {
         List<Pump> pumps = this.pumpRepository.findByUserId(id);
         List<PumpResponse> pumpResponseList = new ArrayList<>();
         for (Pump pump : pumps) {
@@ -40,10 +40,10 @@ public class PumpService {
         Pump returnPump = this.pumpRepository.save(pump);
         return pumpMapper.toDTO(returnPump);
     }
-    public void delete(UUID id){
+    public void delete(Integer id){
         this.pumpRepository.deleteById(id);
     }
-    public PumpResponse changePumpStatus(UUID id, PumpStatus pumpStatus){
+    public PumpResponse changePumpStatus(Integer id, PumpStatus pumpStatus){
         Pump pump = this.pumpRepository.findById(id).orElse(null);
         if(pump == null){
             return null;

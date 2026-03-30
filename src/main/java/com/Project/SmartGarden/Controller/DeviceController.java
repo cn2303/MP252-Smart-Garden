@@ -21,7 +21,7 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getDeviceById(@PathVariable UUID id) {
+    public ResponseEntity<?> getDeviceById(@PathVariable Integer id) {
         DeviceResponde device = deviceService.getDeviceById(id);
         return ResponseEntity.ok(device);
     }
@@ -31,17 +31,17 @@ public class DeviceController {
         return ResponseEntity.ok(deviceResponde);
     }
     @GetMapping("/by-pump")
-    public ResponseEntity<?> getDeviceByPumpId(@RequestParam UUID pumpId) {
+    public ResponseEntity<?> getDeviceByPumpId(@RequestParam Integer pumpId) {
         List<DeviceResponde> deviceResponses = deviceService.getDeviceByPumpId(pumpId);
         return ResponseEntity.ok(deviceResponses);
     }
     @GetMapping("/by-pump-and-type")
-    public ResponseEntity<?> getDeviceByPumpIdAndType(@RequestParam UUID pumpId, @RequestParam Type type) {
+    public ResponseEntity<?> getDeviceByPumpIdAndType(@RequestParam Integer pumpId, @RequestParam Type type) {
         DeviceResponde deviceResponses = deviceService.getDeviceByPumpIdAndType(pumpId, type);
         return ResponseEntity.ok(deviceResponses);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteDeviceById(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteDeviceById(@PathVariable Integer id) {
         deviceService.deleteDeviceById(id);
         return ResponseEntity.ok().build();
     }

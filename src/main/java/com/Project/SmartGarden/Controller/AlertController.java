@@ -18,12 +18,12 @@ public class AlertController {
         this.alertService = alertService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAlert(@PathVariable UUID id) {
+    public ResponseEntity<?> getAlert(@PathVariable Integer id) {
         Alert alert = this.alertService.getById(id);
         return ResponseEntity.ok(alert);
     }
     @PutMapping("/isRead/{id}")
-    public ResponseEntity<?> changeIsRead(@PathVariable UUID id) {
+    public ResponseEntity<?> changeIsRead(@PathVariable Integer id) {
         Alert alert = this.alertService.changeIsRead(id);
         return ResponseEntity.ok(alert);
     }

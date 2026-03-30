@@ -15,10 +15,10 @@ public class PhoneService {
     public PhoneService(PhoneRepository phoneRepository) {
         this.phoneRepository = phoneRepository;
     }
-    public List<Phone> findByUserId(UUID userId) {
+    public List<Phone> findByUserId(Integer userId) {
         return phoneRepository.findByUserId(userId);
     }
-    public Phone findById(UUID id) {
+    public Phone findById(Integer id) {
         return phoneRepository.findById(id).orElse(null);
     }
     public Phone save(Phone phone) {
@@ -27,7 +27,7 @@ public class PhoneService {
     public Phone update(Phone phone) {
         return phoneRepository.save(phone);
     }
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         this.phoneRepository.deleteById(id);
     }
 }

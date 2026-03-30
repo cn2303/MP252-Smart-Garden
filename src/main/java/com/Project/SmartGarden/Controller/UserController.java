@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         UserRespone user = this.userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
@@ -30,12 +30,12 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable UUID id,@RequestBody UpdateUserRequest request) {
+    public ResponseEntity<?> updateUser(@PathVariable Integer id,@RequestBody UpdateUserRequest request) {
         UserRespone user = this.userService.updateUser(id, request);
         return ResponseEntity.ok(user);
     }
     @DeleteMapping
-    public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
         this.userService.deleteUser(id);
         return ResponseEntity.ok().build();
     }

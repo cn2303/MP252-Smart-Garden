@@ -14,23 +14,23 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Device")
+@Table(name = "devices")
 public class Device {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "device_id")
-    private UUID id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "type", columnDefinition = "measurement_type_enum")
     private Type type;
-    @Column(name = "connect_id")
-    private UUID connectId;
+    @Column(name = "conn_id")
+    private Integer connectId;
     @Column(name = "pump_id")
-    private UUID pumpId;
+    private Integer pumpId;
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "device_status_enum")
     private Status status;
     @Column(name = "last_seen")
     private LocalDateTime lastSeen;

@@ -28,7 +28,7 @@ public class PhoneController {
         return ResponseEntity.ok(phone1);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePhone(@PathVariable UUID id) {
+    public ResponseEntity<?> deletePhone(@PathVariable Integer id) {
         this.phoneService.delete(id);
         return ResponseEntity.ok().build();
     }

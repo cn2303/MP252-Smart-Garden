@@ -15,18 +15,21 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "SensorData")
+@Table(name = "sensor_data")
 public class SensorData {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "data_id")
-    private UUID id;
+    private Integer id;
     @Column(name = "device_id")
-    private UUID deviceId;
+    private Integer deviceId;
     @Column(name = "value")
     private double value;
-    @Column(name = "type")
+    @Column(name = "type", columnDefinition = "measurement_type_enum")
+    @Enumerated(EnumType.STRING)
     private Type type;
+    @Column(name = "unit")
+    private String unit;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 }

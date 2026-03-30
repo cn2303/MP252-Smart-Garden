@@ -14,19 +14,19 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Pump")
+@Table(name = "pumps")
 public class Pump {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pump_id")
-    private UUID id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "user_id")
-    private UUID userId;
-    @Column(name = "connection_id")
-    private UUID connectionId;
-    @Column(name = "status")
+    private Integer userId;
+    @Column(name = "conn_id")
+    private Integer connectionId;
+    @Column(name = "status", columnDefinition = "pump_state_enum")
     @Enumerated(EnumType.STRING)
     private PumpStatus status;
     @Column(name = "updated_at")
@@ -47,6 +47,4 @@ public class Pump {
     private double rootDepth;
     @Column(name = "area")
     private double area;
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
 }

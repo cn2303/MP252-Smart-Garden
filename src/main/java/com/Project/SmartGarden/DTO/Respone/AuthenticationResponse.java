@@ -13,5 +13,5 @@ import java.util.UUID;
 @Builder
 public class AuthenticationResponse {
     private String token;
-    private UUID userId;
+    private Integer userId;
 }

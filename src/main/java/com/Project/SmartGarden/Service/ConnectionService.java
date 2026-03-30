@@ -22,11 +22,11 @@ public class ConnectionService {
         this.connectionRepository = connectionRepository;
         this.connectionMapper = connectionMapper;
     }
-    public ConnectionResponse getConnectionById(UUID id) {
+    public ConnectionResponse getConnectionById(Integer id) {
         Connection connection = this.connectionRepository.findById(id).orElse(null);
         return connectionMapper.toDTO(connection);
     }
-    public List<ConnectionResponse> getConnectionByUserId(UUID userId) {
+    public List<ConnectionResponse> getConnectionByUserId(Integer userId) {
         List<Connection> connections = this.connectionRepository.findByUserId(userId);
         List<ConnectionResponse> responses = new ArrayList<>();
         for (Connection connection : connections) {
@@ -39,7 +39,7 @@ public class ConnectionService {
         Connection returnConnection = this.connectionRepository.save(connection);
         return connectionMapper.toDTO(returnConnection);
     }
-    public ConnectionResponse updateConnection(UUID id, ConnectionUpdateRequest request) {
+    public ConnectionResponse updateConnection(Integer id, ConnectionUpdateRequest request) {
         Connection connection = this.connectionRepository.findById(id).orElse(null);
         if (connection == null) {
             return null;
@@ -51,7 +51,7 @@ public class ConnectionService {
         Connection returnConnection = this.connectionRepository.save(connection);
         return connectionMapper.toDTO(returnConnection);
     }
-    public void deleteConnection(UUID id) {
+    public void deleteConnection(Integer id) {
         this.connectionRepository.deleteById(id);
     }
 }

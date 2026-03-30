@@ -15,6 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PumpRequest {
     private String name;
-    private UUID connectionId;
-    private UUID userId;
+    private Integer connectionId;
+    private Integer userId;
 }

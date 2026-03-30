@@ -19,17 +19,17 @@ public class PumpLogController {
         this.pumpLogService = pumpLogService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPumpLogById(@PathVariable UUID id) {
+    public ResponseEntity<?> getPumpLogById(@PathVariable Integer id) {
         PumpLog pumpLog = this.pumpLogService.getById(id);
         return ResponseEntity.ok(pumpLog);
     }
     @GetMapping("/pump/{pumpId}")
-    public ResponseEntity<?> getPumpLogByPumpId(@PathVariable UUID pumpId) {
+    public ResponseEntity<?> getPumpLogByPumpId(@PathVariable Integer pumpId) {
         List<PumpLog> pumpLogs = this.pumpLogService.getByPumpId(pumpId);
         return ResponseEntity.ok(pumpLogs);
     }
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getPumpLogByUserId(@PathVariable UUID userId) {
+    public ResponseEntity<?> getPumpLogByUserId(@PathVariable Integer userId) {
         List<PumpLog> pumpLogs = this.pumpLogService.getByUserId(userId);
         return ResponseEntity.ok(pumpLogs);
     }

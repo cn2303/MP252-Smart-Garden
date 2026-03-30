@@ -20,12 +20,12 @@ public class SensorDataController {
         this.sensorDataService = sensorDataService;
     }
     @GetMapping("/{deviceId}")
-    public ResponseEntity<?> findSensorDataByDeviceId(@PathVariable("deviceId") UUID deviceId) {
+    public ResponseEntity<?> findSensorDataByDeviceId(@PathVariable("deviceId") Integer deviceId) {
         List<SensorData> sensorDataList = this.sensorDataService.findSensorDataByDeviceId(deviceId);
         return ResponseEntity.ok(sensorDataList);
     }
     @GetMapping
-    public ResponseEntity<?> findSensorDataByDeviceIdAndCreatedAtBetween(@RequestBody UUID id, @RequestBody LocalDateTime start, @RequestBody LocalDateTime end) {
+    public ResponseEntity<?> findSensorDataByDeviceIdAndCreatedAtBetween(@RequestBody Integer id, @RequestBody LocalDateTime start, @RequestBody LocalDateTime end) {
         List<SensorData> sensorDataList = this.sensorDataService.findSensorDataByDeviceIdAndCreatedAtBetween(id, start, end);
         return ResponseEntity.ok(sensorDataList);
     }

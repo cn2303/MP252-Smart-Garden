@@ -14,10 +14,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PumpResponse {
-    private UUID pumpId;
+    private Integer pumpId;
     private String name;
     private PumpStatus pumpStatus;
-    private UUID connectionId;
-    private UUID userId;
+    private Integer connectionId;
+    private Integer userId;
     private LocalDateTime updateAt;
 }

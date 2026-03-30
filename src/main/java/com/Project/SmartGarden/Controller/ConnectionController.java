@@ -21,12 +21,12 @@ public class ConnectionController {
         this.connectionService = connectionService;
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> getConnectionById(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> getConnectionById(@PathVariable("id") Integer id) {
         ConnectionResponse connectionResponse = this.connectionService.getConnectionById(id);
         return ResponseEntity.ok(connectionResponse);
     }
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getConnectionByUserId(@PathVariable("userId") UUID id) {
+    public ResponseEntity<?> getConnectionByUserId(@PathVariable("userId") Integer id) {
         List<ConnectionResponse> connectionResponse = this.connectionService.getConnectionByUserId(id);
         return ResponseEntity.ok(connectionResponse);
     }
@@ -36,12 +36,12 @@ public class ConnectionController {
         return ResponseEntity.ok(connectionResponse);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateConnection(@PathVariable UUID id, @RequestBody ConnectionUpdateRequest request) {
+    public ResponseEntity<?> updateConnection(@PathVariable Integer id, @RequestBody ConnectionUpdateRequest request) {
         ConnectionResponse connectionResponse = this.connectionService.updateConnection(id,request);
         return ResponseEntity.ok(connectionResponse);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteConnectionById(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> deleteConnectionById(@PathVariable("id") Integer id) {
         this.connectionService.deleteConnection(id);
         return ResponseEntity.ok().build();
     }

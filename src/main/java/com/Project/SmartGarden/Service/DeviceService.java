@@ -27,11 +27,11 @@ public class DeviceService {
         Device returnDevice = this.deviceRepository.save(device);
         return deviceMapper.toDTO(returnDevice);
     }
-    public DeviceResponde getDeviceById(UUID id) {
+    public DeviceResponde getDeviceById(Integer id) {
         Device device = this.deviceRepository.findById(id).orElse(null);
         return deviceMapper.toDTO(device);
     }
-    public List<DeviceResponde> getDeviceByPumpId(UUID pumpId) {
+    public List<DeviceResponde> getDeviceByPumpId(Integer pumpId) {
         List<Device> devices = deviceRepository.findByPumpId(pumpId);
         List<DeviceResponde> deviceRespondes = new ArrayList<>();
         for (Device device : devices) {
@@ -39,11 +39,11 @@ public class DeviceService {
         }
         return deviceRespondes;
     }
-    public DeviceResponde getDeviceByPumpIdAndType(UUID pumpId, Type type) {
+    public DeviceResponde getDeviceByPumpIdAndType(Integer pumpId, Type type) {
         Device device =  this.deviceRepository.findByPumpIdAndType(pumpId, type);
         return deviceMapper.toDTO(device);
     }
-    public void deleteDeviceById(UUID id) {
+    public void deleteDeviceById(Integer id) {
         deviceRepository.deleteById(id);
     }
 }

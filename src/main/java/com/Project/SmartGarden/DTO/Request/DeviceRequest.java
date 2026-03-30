@@ -15,6 +15,6 @@ import java.util.UUID;
 public class DeviceRequest {
     private String name;
     private Type type;
-    private UUID connectId;
-    private UUID pumpId;
+    private Integer connectId;
+    private Integer pumpId;
 }

@@ -6,6 +6,7 @@ import com.Project.SmartGarden.DTO.Respone.UserRespone;
 import com.Project.SmartGarden.Entity.User;
 import com.Project.SmartGarden.Mapper.UserMapper;
 import com.Project.SmartGarden.Repository.UserRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +28,7 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
-    public UserRespone getUserById(UUID id) {
+    public UserRespone getUserById(Integer id) {
         User user =  userRepository.findById(id).orElse(null);
         return userMapper.toDTO(user);
     }
@@ -38,7 +39,7 @@ public class UserService {
         User returnUser = this.userRepository.save(user);
         return userMapper.toDTO(returnUser);
     }
-    public UserRespone updateUser(UUID id, UpdateUserRequest request) {
+    public UserRespone updateUser(Integer id, UpdateUserRequest request) {
         User user = this.userRepository.findById(id).orElse(null);
         if (user == null) {
             return null;
@@ -49,7 +50,7 @@ public class UserService {
         this.userRepository.save(user);
         return userMapper.toDTO(user);
     }
-    public void deleteUser(UUID id) {
+    public void deleteUser(Integer id) {
         User user = this.userRepository.findById(id).orElse(null);
         if (user == null) {
             return;

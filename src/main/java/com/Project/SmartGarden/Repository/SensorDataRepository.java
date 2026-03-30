@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 @Repository
-public interface SensorDataRepository extends JpaRepository<SensorData, UUID> {
-    List<SensorData> findByDeviceIdAndCreatedAtBetween(UUID deviceId, LocalDateTime start, LocalDateTime end);
-    List<SensorData> findByDeviceId(UUID deviceId);
+public interface SensorDataRepository extends JpaRepository<SensorData, Integer> {
+    List<SensorData> findByDeviceIdAndCreatedAtBetween(Integer deviceId, LocalDateTime start, LocalDateTime end);
+    List<SensorData> findByDeviceId(Integer deviceId);
 }

@@ -18,13 +18,13 @@ public class PumpLogService {
     public PumpLog save(PumpLog pumpLog) {
         return this.pumpLogRepository.save(pumpLog);
     }
-    public PumpLog getById(UUID id) {
+    public PumpLog getById(Integer id) {
         return this.pumpLogRepository.findById(id).orElse(null);
     }
-    public List<PumpLog> getByPumpId(UUID pumpId) {
+    public List<PumpLog> getByPumpId(Integer pumpId) {
         return this.pumpLogRepository.findByPumpId(pumpId);
     }
-    public List<PumpLog> getByUserId(UUID userId) {
+    public List<PumpLog> getByUserId(Integer userId) {
         return this.pumpLogRepository.findByUserId(userId);
     }
 }
