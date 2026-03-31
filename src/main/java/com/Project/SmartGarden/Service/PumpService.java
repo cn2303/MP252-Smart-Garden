@@ -1,5 +1,6 @@
 package com.Project.SmartGarden.Service;
 
+import com.Project.SmartGarden.DTO.Request.ConfigRequest;
 import com.Project.SmartGarden.DTO.Request.PumpRequest;
 import com.Project.SmartGarden.DTO.Respone.PumpResponse;
 import com.Project.SmartGarden.Entity.Pump;
@@ -9,6 +10,7 @@ import com.Project.SmartGarden.Repository.PumpRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +41,19 @@ public class PumpService {
         Pump pump = pumpMapper.toEntity(request);
         Pump returnPump = this.pumpRepository.save(pump);
         return pumpMapper.toDTO(returnPump);
+    }
+    public PumpResponse updateConfig(ConfigRequest request){
+        Pump pump = this.pumpRepository.findById(request.getId()).orElse(null);
+        pump.setTemperatureMax(request.getTemperatureMax());
+        pump.setTemperatureMin(request.getTemperatureMin());
+        pump.setLightIntensityMax(request.getLightIntensityMax());
+        pump.setMoistureThreshold(request.getMoistureThreshold());
+        pump.setRootDepth(request.getRootDepth());
+        pump.setFieldCapacity(request.getFieldCapacity());
+        pump.setArea(request.getArea());
+        pump.setUpdatedAt(LocalDateTime.now());
+        pumpRepository.save(pump);
+        return pumpMapper.toDTO(pump);
     }
     public void delete(Integer id){
         this.pumpRepository.deleteById(id);

@@ -4,6 +4,7 @@ import com.Project.SmartGarden.Entity.*;
 import com.Project.SmartGarden.Mapper.ConnectionMapper;
 import com.Project.SmartGarden.Repository.*;
 import com.Project.SmartGarden.utils.ConnectionManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -27,6 +28,7 @@ public class MqttConnectionService {
     private final AlertRepository alertRepository;
     private final ConnectionManager connectionManager;
     private final ConnectionRepository connectionRepository;
+    private final PumpLogRepository pumpLogRepository;
     @Autowired
     public MqttConnectionService(ObjectMapper objectMapper,
                                  SensorDataRepository sensorDataRepository,
@@ -34,7 +36,8 @@ public class MqttConnectionService {
                                  DeviceRepository deviceRepository,
                                  AlertRepository alertRepository,
                                  ConnectionManager connectionManager,
-                                 ConnectionRepository connectionRepository) {
+                                 ConnectionRepository connectionRepository,
+                                 PumpLogRepository pumpLogRepository) {
         this.objectMapper = objectMapper;
         this.sensorDataRepository = sensorDataRepository;
         this.pumpRepository = pumpRepository;
@@ -42,6 +45,7 @@ public class MqttConnectionService {
         this.alertRepository = alertRepository;
         this.connectionManager = connectionManager;
         this.connectionRepository = connectionRepository;
+        this.pumpLogRepository = pumpLogRepository;
     }
     public MqttClient connect(Connection connection) {
         String broker = connection.getAddrBroker();
@@ -64,7 +68,7 @@ public class MqttConnectionService {
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
             client.connect(options);
-
+            connectionManager.addConnection(connection.getId(), client);
             client.subscribe(topic, (t, msg) -> {
                 String payload = new String(msg.getPayload());
                 Map<String, Object> data = objectMapper.readValue(payload, Map.class);
@@ -147,15 +151,8 @@ public class MqttConnectionService {
                         alertRepository.save(alert);
                         //Logic automation Pump
                         double waterVolume = (pump.getFieldCapacity() - value) * pump.getRootDepth() * pump.getArea();
-                        Map<String, Object> json = new HashMap<>();
-                        json.put("action","swopen");
-                        json.put("water_volume",waterVolume);
-                        json.put("pump_id",pumpId);
-                        String jsonObject = objectMapper.writeValueAsString(json);
-                        MqttMessage message = new MqttMessage(jsonObject.getBytes());
-                        message.setQos(1);
-                        //Sai
-                        autoControl(pump,message);
+
+                        autoControl(pump,waterVolume);
                     }
                 }
 
@@ -190,6 +187,14 @@ public class MqttConnectionService {
                         alertRepository.save(alert);
                     }
                 }
+                if (data.containsKey("action")) {
+                    String status = data.get("action").toString();
+                    if(status=="success_off") {
+                       Pump pump1 =  this.pumpRepository.findById(pump.getId()).orElse(null);
+                       pump1.setStatus(PumpStatus.OFF);
+                       this.pumpRepository.save(pump1);
+                    }
+                }
             });
             return client;
         }
@@ -197,16 +202,98 @@ public class MqttConnectionService {
             throw new RuntimeException(e.getMessage());
         }
     }
-    public void autoControl(Pump pump,MqttMessage message) throws MqttException {
-        MqttClient client = connectionManager.getConnection(pump.getConnectionId());
-        if(client == null) {
-            throw new RuntimeException(" MQTT Connection Not Found");
-        }
+    public void autoControl(Pump pump,double waterVolume) throws MqttException, JsonProcessingException {
+        //Message Sent
+        Map<String, Object> json = new HashMap<>();
+        json.put("action","swopen");
+        json.put("water_volume",waterVolume);
+        json.put("pump_id",pump.getId());
+        String jsonObject = objectMapper.writeValueAsString(json);
+        MqttMessage message = new MqttMessage(jsonObject.getBytes());
+        message.setQos(1);
         Connection connection = connectionRepository.findById(pump.getConnectionId()).orElse(null);
         if (connection == null) {
             throw new RuntimeException("Connection Not Found");
         }
+        MqttClient client = connectionManager.getConnection(connection.getId());
+        if(client == null) {
+            throw new RuntimeException(" MQTT Connection Not Found");
+        }
         client.publish(connection.getFeed(), message);
+        //Pump Log
+        PumpLog pumpLog = PumpLog.builder()
+                .pumpId(pump.getId())
+                .userId(pump.getUserId())
+                .action(PumpStatus.ON)
+                .mode(Mode.AUTO)
+                .waterVolume(waterVolume)
+                .status(ActionStatus.SUCCESS)
+                .createdAt(LocalDateTime.now())
+                .build();
+        //Update Pump Status
+        Pump pump1 = this.pumpRepository.findById(pump.getId()).orElse(null);
+        pump1.setStatus(PumpStatus.ON);
+        this.pumpRepository.save(pump1);
+    }
+    public void manualControlOn(Pump pump) throws MqttException, JsonProcessingException {
+        //Message Sent
+        Map<String, Object> json = new HashMap<>();
+        json.put("action","sopen");
+        json.put("pump_id",pump.getId());
+        String jsonObject = objectMapper.writeValueAsString(json);
+        MqttMessage message = new MqttMessage(jsonObject.getBytes());
+        message.setQos(1);
+        MqttClient client = this.connectionManager.getConnection(pump.getConnectionId());
+        Connection connection = connectionRepository.findById(pump.getConnectionId()).orElse(null);
+        if (connection == null) {
+            return;
+        }
+        client.publish(connection.getFeed(), message);
+        //Pump Log
+        PumpLog pumpLog = PumpLog.builder()
+                .pumpId(pump.getId())
+                .userId(pump.getUserId())
+                .action(PumpStatus.ON)
+                .mode(Mode.MANUAL)
+                .waterVolume(0.0)
+                .status(ActionStatus.SUCCESS)
+                .createdAt(LocalDateTime.now())
+                .build();
+        this.pumpLogRepository.save(pumpLog);
+        //Update Pump Status
+        Pump pump1 = this.pumpRepository.findById(pump.getId()).orElse(null);
+        pump1.setStatus(PumpStatus.ON);
+        this.pumpRepository.save(pump1);
+    }
+    public void manualControlOff(Pump pump) throws MqttException, JsonProcessingException {
+        //Message Sent
+        Map<String, Object> json = new HashMap<>();
+        json.put("action","sclose");
+        json.put("pump_id",pump.getId());
+        String jsonObject = objectMapper.writeValueAsString(json);
+        MqttMessage message = new MqttMessage(jsonObject.getBytes());
+        message.setQos(1);
+        MqttClient client = this.connectionManager.getConnection(pump.getConnectionId());
+        Connection connection = connectionRepository.findById(pump.getConnectionId()).orElse(null);
+        if (connection == null) {
+            return;
+        }
+        client.publish(connection.getFeed(), message);
+        //Pump Log
+        PumpLog pumpLog = PumpLog.builder()
+                .pumpId(pump.getId())
+                .userId(pump.getUserId())
+                .action(PumpStatus.OFF)
+                .mode(Mode.MANUAL)
+                .waterVolume(0.0)
+                .status(ActionStatus.SUCCESS)
+                .createdAt(LocalDateTime.now())
+                .build();
+        this.pumpLogRepository.save(pumpLog);
+        //Update Pump Status
+        Pump pump1 = this.pumpRepository.findById(pump.getId()).orElse(null);
+        pump1.setStatus(PumpStatus.OFF);
+        this.pumpRepository.save(pump1);
     }
 }
 

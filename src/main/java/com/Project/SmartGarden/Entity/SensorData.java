@@ -2,6 +2,8 @@ package com.Project.SmartGarden.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDateTime;
@@ -23,8 +25,9 @@ public class SensorData {
     private Integer deviceId;
     @Column(name = "value")
     private double value;
-    @Column(name = "type", columnDefinition = "measurement_type_enum")
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "type", columnDefinition = "measurement_type_enum")
     private Type type;
     @Column(name = "unit")
     private String unit;

@@ -29,6 +29,14 @@ public class PumpMapper {
         pump.setConnectionId(request.getConnectionId());
         pump.setUserId(request.getUserId());
         pump.setStatus(PumpStatus.OFF);
+
+        pump.setTemperatureMax(request.getTemperatureMax());
+        pump.setTemperatureMin(request.getTemperatureMin());
+        pump.setLightIntensityMax(request.getLightIntensityMax());
+        pump.setMoistureThreshold(request.getMoistureThreshold());
+        pump.setFieldCapacity(request.getFieldCapacity());
+        pump.setRootDepth(request.getRootDepth());
+        pump.setArea(request.getArea());
         pump.setUpdatedAt(LocalDateTime.now());
         return pump;
     }

@@ -17,10 +17,14 @@ import java.util.UUID;
 public class ConnectionService {
     private final ConnectionRepository connectionRepository;
     private final ConnectionMapper connectionMapper;
+    private final MqttConnectionService mqttConnectionService;
     @Autowired
-    public ConnectionService(ConnectionRepository connectionRepository,  ConnectionMapper connectionMapper) {
+    public ConnectionService(ConnectionRepository connectionRepository,
+                             ConnectionMapper connectionMapper,
+                             MqttConnectionService mqttConnectionService) {
         this.connectionRepository = connectionRepository;
         this.connectionMapper = connectionMapper;
+        this.mqttConnectionService = mqttConnectionService;
     }
     public ConnectionResponse getConnectionById(Integer id) {
         Connection connection = this.connectionRepository.findById(id).orElse(null);
@@ -37,6 +41,8 @@ public class ConnectionService {
     public ConnectionResponse saveConnection(ConnectionRequest request) {
         Connection connection = this.connectionMapper.toEntity(request);
         Connection returnConnection = this.connectionRepository.save(connection);
+        //connect
+        mqttConnectionService.connect(returnConnection);
         return connectionMapper.toDTO(returnConnection);
     }
     public ConnectionResponse updateConnection(Integer id, ConnectionUpdateRequest request) {

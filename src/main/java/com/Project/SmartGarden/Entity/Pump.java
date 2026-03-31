@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -26,8 +28,9 @@ public class Pump {
     private Integer userId;
     @Column(name = "conn_id")
     private Integer connectionId;
-    @Column(name = "status", columnDefinition = "pump_state_enum")
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "status", columnDefinition = "pump_state_enum")
     private PumpStatus status;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;

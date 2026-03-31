@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,6 +25,7 @@ public class Device {
     @Column(name = "name")
     private String name;
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "type", columnDefinition = "measurement_type_enum")
     private Type type;
     @Column(name = "conn_id")
@@ -30,6 +33,7 @@ public class Device {
     @Column(name = "pump_id")
     private Integer pumpId;
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", columnDefinition = "device_status_enum")
     private Status status;
     @Column(name = "last_seen")
