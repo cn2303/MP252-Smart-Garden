@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ConnectionRepository extends JpaRepository<Connection, Integer> {
     public List<Connection> findByUserId(Integer userId);
+    public Optional<Connection> findByPumpId(Integer pumpId);
 }

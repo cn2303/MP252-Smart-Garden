@@ -20,6 +20,9 @@ public class ApplicationConfig {
     }
     @PostConstruct
     public void init() {
+        initializeUsers();
+    }
+    public void initializeUsers() {
         User user = this.userRepository.findByUsername("admin").orElse(null);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         if (user == null) {
@@ -31,5 +34,8 @@ public class ApplicationConfig {
             newUser.setCreatedAt(LocalDateTime.now());
             this.userRepository.save(newUser);
         }
+    }
+    public void initializeConnections() {
+
     }
 }
