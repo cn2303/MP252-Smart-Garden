@@ -1,0 +1,13 @@
+
+services:
+
+  smartgarden:
+    build: .
+    container_name: smartgarden-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    restart: no
+    volumes:
+      - ./global-bundle.pem:/app/global-bundle.pem

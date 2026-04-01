@@ -230,6 +230,7 @@ public class MqttConnectionService {
                 .status(ActionStatus.SUCCESS)
                 .createdAt(LocalDateTime.now())
                 .build();
+        this.pumpLogRepository.save(pumpLog);
         //Update Pump Status
         Pump pump1 = this.pumpRepository.findById(pump.getId()).orElse(null);
         pump1.setStatus(PumpStatus.ON);
