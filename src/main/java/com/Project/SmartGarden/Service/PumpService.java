@@ -7,6 +7,8 @@ import com.Project.SmartGarden.Entity.Pump;
 import com.Project.SmartGarden.Entity.PumpStatus;
 import com.Project.SmartGarden.Mapper.PumpMapper;
 import com.Project.SmartGarden.Repository.PumpRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,12 @@ import java.util.UUID;
 public class PumpService {
     private final PumpRepository pumpRepository;
     private final PumpMapper pumpMapper;
+    private final MqttConnectionService mqttConnectionService;
     @Autowired
-    public PumpService(PumpRepository pumpRepository,  PumpMapper pumpMapper) {
+    public PumpService(PumpRepository pumpRepository,  PumpMapper pumpMapper, MqttConnectionService mqttConnectionService) {
         this.pumpRepository = pumpRepository;
         this.pumpMapper =  pumpMapper;
+        this.mqttConnectionService = mqttConnectionService;
     }
     public PumpResponse getByPumpId(Integer pumpId) {
         Pump pump = this.pumpRepository.findById(pumpId).orElse(null);
@@ -68,4 +72,17 @@ public class PumpService {
         return this.pumpMapper.toDTO(returnPump);
     }
     //update Pump
+    public void manualControl(Integer id, boolean onCommand) throws MqttException, JsonProcessingException {
+        Pump pump = this.pumpRepository.findById(id).orElse(null);
+        if(pump == null){
+            return;
+        }
+        if(onCommand){
+            mqttConnectionService.manualControlOn(pump);
+        }
+        else {
+            mqttConnectionService.manualControlOff(pump);
+        }
+
+    }
 }

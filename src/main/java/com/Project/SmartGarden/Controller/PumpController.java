@@ -3,7 +3,10 @@ package com.Project.SmartGarden.Controller;
 import com.Project.SmartGarden.DTO.Request.PumpRequest;
 import com.Project.SmartGarden.DTO.Respone.PumpResponse;
 import com.Project.SmartGarden.Service.PumpService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +45,16 @@ public class PumpController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePump(@PathVariable("id") Integer id) {
         this.pumpService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/manual")
+    public ResponseEntity<?> manualControl(@RequestParam Integer pumpId,
+                                           @RequestParam boolean onCommand)  {
+        try {
+            this.pumpService.manualControl(pumpId, onCommand);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
         return ResponseEntity.ok().build();
     }
 }
