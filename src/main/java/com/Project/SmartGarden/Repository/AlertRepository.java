@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface AlertRepository  extends JpaRepository<Alert, Integer> {
     List<Alert> findByDeviceId(Integer deviceId);
+    List<Alert> findByUserId(Integer userId);
+    List<Alert> findByPumpId(Integer pumpId);
 }

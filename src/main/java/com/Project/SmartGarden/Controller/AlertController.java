@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +22,11 @@ public class AlertController {
     public ResponseEntity<?> getAlert(@PathVariable Integer id) {
         Alert alert = this.alertService.getById(id);
         return ResponseEntity.ok(alert);
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getAlertByUserId(@PathVariable Integer userId) {
+        List<Alert> alerts = this.alertService.getByUserId(userId);
+        return ResponseEntity.ok(alerts);
     }
     @PutMapping("/isRead/{id}")
     public ResponseEntity<?> changeIsRead(@PathVariable Integer id) {

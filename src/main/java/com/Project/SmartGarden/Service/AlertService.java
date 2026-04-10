@@ -5,6 +5,7 @@ import com.Project.SmartGarden.Repository.AlertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,6 +20,9 @@ public class AlertService {
     }
     public Alert getById(Integer id) {
         return this.alertRepository.findById(id).orElse(null);
+    }
+    public List<Alert> getByUserId(Integer userId) {
+        return this.alertRepository.findByUserId(userId);
     }
     public Alert changeIsRead(Integer id) {
         Alert alert = this.alertRepository.findById(id).orElse(null);
