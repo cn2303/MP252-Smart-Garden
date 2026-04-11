@@ -72,8 +72,7 @@ public class MqttConnectionService {
             client.subscribe(topic, (t, msg) -> {
                 String payload = new String(msg.getPayload());
                 Map<String, Object> data = objectMapper.readValue(payload, Map.class);
-                Integer pumpId = (Integer) data.get("pump_id");
-                Pump pump = pumpRepository.findById(pumpId).orElse(null);
+                Pump pump = pumpRepository.findByConnectionId(connection.getId()).orElse(null);
                 if (pump == null) {
                     System.out.println("Pump Not Found");
                     return;
@@ -207,7 +206,7 @@ public class MqttConnectionService {
         Map<String, Object> json = new HashMap<>();
         json.put("action","swopen");
         json.put("water_volume",waterVolume);
-        json.put("pump_id",pump.getId());
+        //json.put("pump_id",pump.getId());
         String jsonObject = objectMapper.writeValueAsString(json);
         MqttMessage message = new MqttMessage(jsonObject.getBytes());
         message.setQos(1);
@@ -240,7 +239,7 @@ public class MqttConnectionService {
         //Message Sent
         Map<String, Object> json = new HashMap<>();
         json.put("action","sopen");
-        json.put("pump_id",pump.getId());
+        //json.put("pump_id",pump.getId());
         String jsonObject = objectMapper.writeValueAsString(json);
         MqttMessage message = new MqttMessage(jsonObject.getBytes());
         message.setQos(1);
@@ -270,7 +269,7 @@ public class MqttConnectionService {
         //Message Sent
         Map<String, Object> json = new HashMap<>();
         json.put("action","sclose");
-        json.put("pump_id",pump.getId());
+        //json.put("pump_id",pump.getId());
         String jsonObject = objectMapper.writeValueAsString(json);
         MqttMessage message = new MqttMessage(jsonObject.getBytes());
         message.setQos(1);
