@@ -73,6 +73,7 @@ public class MqttConnectionService {
             client.subscribe(topic, (t, msg) -> {
                 String payload = new String(msg.getPayload());
                 Map<String, Object> data = objectMapper.readValue(payload, Map.class);
+                //refactor this
                 List<Device> devices = this.deviceRepository.findByConnectId(connection.getId());
                 Pump pump = this.pumpRepository.findById(devices.getFirst().getPumpId()).orElse(null);
                 if (pump == null) {
