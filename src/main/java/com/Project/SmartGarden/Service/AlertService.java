@@ -21,9 +21,9 @@ public class AlertService {
     public Alert getById(Integer id) {
         return this.alertRepository.findById(id).orElse(null);
     }
-    public List<Alert> getByUserId(Integer userId) {
-        return this.alertRepository.findByUserId(userId);
-    }
+//    //public List<Alert> getByUserId(Integer userId) {
+//        return this.alertRepository.findByUserId(userId);
+//    }
     public Alert changeIsRead(Integer id) {
         Alert alert = this.alertRepository.findById(id).orElse(null);
         if (alert == null) {

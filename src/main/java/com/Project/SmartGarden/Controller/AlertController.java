@@ -23,11 +23,11 @@ public class AlertController {
         Alert alert = this.alertService.getById(id);
         return ResponseEntity.ok(alert);
     }
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getAlertByUserId(@PathVariable Integer userId) {
-        List<Alert> alerts = this.alertService.getByUserId(userId);
-        return ResponseEntity.ok(alerts);
-    }
+//    @GetMapping("/user/{userId}")
+//    public ResponseEntity<?> getAlertByUserId(@PathVariable Integer userId) {
+//        List<Alert> alerts = this.alertService.getByUserId(userId);
+//        return ResponseEntity.ok(alerts);
+//    }
     @PutMapping("/isRead/{id}")
     public ResponseEntity<?> changeIsRead(@PathVariable Integer id) {
         Alert alert = this.alertService.changeIsRead(id);
