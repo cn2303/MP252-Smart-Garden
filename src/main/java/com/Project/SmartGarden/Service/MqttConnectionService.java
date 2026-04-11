@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -72,7 +73,8 @@ public class MqttConnectionService {
             client.subscribe(topic, (t, msg) -> {
                 String payload = new String(msg.getPayload());
                 Map<String, Object> data = objectMapper.readValue(payload, Map.class);
-                Pump pump = pumpRepository.findByConnectionId(connection.getId()).orElse(null);
+                List<Device> devices = this.deviceRepository.findByConnectId(connection.getId());
+                Pump pump = this.pumpRepository.findById(devices.getFirst().getPumpId()).orElse(null);
                 if (pump == null) {
                     System.out.println("Pump Not Found");
                     return;
