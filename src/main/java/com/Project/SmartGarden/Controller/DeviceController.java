@@ -20,6 +20,11 @@ public class DeviceController {
     public DeviceController(DeviceService deviceService) {
         this.deviceService = deviceService;
     }
+    @GetMapping
+    public ResponseEntity<?>  getDevices() {
+        List<DeviceResponde> devices = deviceService.getDevices();
+        return ResponseEntity.ok(devices);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<?> getDeviceById(@PathVariable Integer id) {
         DeviceResponde device = deviceService.getDeviceById(id);
@@ -28,6 +33,11 @@ public class DeviceController {
     @PostMapping
     public ResponseEntity<?> addDevice(@RequestBody DeviceRequest request) {
         DeviceResponde deviceResponde = this.deviceService.save(request);
+        return ResponseEntity.ok(deviceResponde);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateDevice(@PathVariable Integer id,@RequestBody DeviceRequest request) {
+        DeviceResponde deviceResponde = this.deviceService.update(id, request);
         return ResponseEntity.ok(deviceResponde);
     }
     @GetMapping("/by-pump")

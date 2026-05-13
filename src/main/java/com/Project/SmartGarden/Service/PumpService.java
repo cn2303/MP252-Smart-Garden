@@ -28,6 +28,14 @@ public class PumpService {
         this.pumpMapper =  pumpMapper;
         this.mqttConnectionService = mqttConnectionService;
     }
+    public List<PumpResponse> findAll(){
+        List<Pump> pumps = pumpRepository.findAll();
+        List<PumpResponse> pumpResponses = new ArrayList<>();
+        for (Pump pump : pumps) {
+            pumpResponses.add(this.pumpMapper.toDTO(pump));
+        }
+        return pumpResponses;
+    }
     public PumpResponse getByPumpId(Integer pumpId) {
         Pump pump = this.pumpRepository.findById(pumpId).orElse(null);
         return pumpMapper.toDTO(pump);
@@ -60,7 +68,12 @@ public class PumpService {
         return pumpMapper.toDTO(pump);
     }
     public void delete(Integer id){
-        this.pumpRepository.deleteById(id);
+        try {
+            this.pumpRepository.deleteById(id);
+        }
+        catch (Exception e){
+            System.err.println(e.getMessage());
+        }
     }
     public PumpResponse changePumpStatus(Integer id, PumpStatus pumpStatus){
         Pump pump = this.pumpRepository.findById(id).orElse(null);

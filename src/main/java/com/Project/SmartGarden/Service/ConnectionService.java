@@ -26,6 +26,9 @@ public class ConnectionService {
         this.connectionMapper = connectionMapper;
         this.mqttConnectionService = mqttConnectionService;
     }
+    public List<Connection> getAllConnections() {
+        return connectionRepository.findAll();
+    }
     public ConnectionResponse getConnectionById(Integer id) {
         Connection connection = this.connectionRepository.findById(id).orElse(null);
         return connectionMapper.toDTO(connection);

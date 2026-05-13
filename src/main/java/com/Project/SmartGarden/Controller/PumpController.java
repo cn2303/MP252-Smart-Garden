@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,11 @@ public class PumpController {
     @Autowired
     public PumpController(PumpService pumpService) {
         this.pumpService = pumpService;
+    }
+    @GetMapping
+    public ResponseEntity<?> getAllPumps() {
+        List<PumpResponse> pumpResponses = this.pumpService.findAll();
+        return ResponseEntity.ok(pumpResponses);
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getPumpById(@PathVariable("id") Integer id) {

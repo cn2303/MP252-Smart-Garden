@@ -9,6 +9,7 @@ import com.Project.SmartGarden.Repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,8 +23,21 @@ public class DeviceService {
         this.deviceRepository = deviceRepository;
         this.deviceMapper = new DeviceMapper();
     }
+    public List<DeviceResponde> getDevices() {
+        List<DeviceResponde> devices = new ArrayList<>();
+        for (Device device : deviceRepository.findAll()) {
+            devices.add(this.deviceMapper.toDTO(device));
+        }
+        return devices;
+    }
     public DeviceResponde save(DeviceRequest request) {
         Device  device = deviceMapper.toEntity(request);
+        Device returnDevice = this.deviceRepository.save(device);
+        return deviceMapper.toDTO(returnDevice);
+    }
+    public DeviceResponde update(Integer id,DeviceRequest request) {
+        Device device = this.deviceRepository.findById(id).orElse(null);
+        device.setConnectId(request.getConnectId());
         Device returnDevice = this.deviceRepository.save(device);
         return deviceMapper.toDTO(returnDevice);
     }
@@ -42,8 +56,15 @@ public class DeviceService {
     public DeviceResponde getDeviceByPumpIdAndType(Integer pumpId, Type type) {
         Device device =  this.deviceRepository.findByPumpIdAndType(pumpId, type);
         return deviceMapper.toDTO(device);
+
     }
     public void deleteDeviceById(Integer id) {
         deviceRepository.deleteById(id);
     }
+//    public DeviceResponde updateLastSeen(Integer id) {
+//        Device device = this.deviceRepository.findById(id).orElse(null);
+//        device.setLastSeen(LocalDateTime.now());
+//        deviceRepository.save(device);
+//        return deviceMapper.toDTO(device);
+//    }
 }

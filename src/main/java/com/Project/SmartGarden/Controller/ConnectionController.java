@@ -20,6 +20,11 @@ public class ConnectionController {
     public ConnectionController(ConnectionService connectionService) {
         this.connectionService = connectionService;
     }
+    @GetMapping
+    public ResponseEntity<?> getAllConnections() {
+        return ResponseEntity.ok(connectionService.getAllConnections());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getConnectionById(@PathVariable("id") Integer id) {
         ConnectionResponse connectionResponse = this.connectionService.getConnectionById(id);

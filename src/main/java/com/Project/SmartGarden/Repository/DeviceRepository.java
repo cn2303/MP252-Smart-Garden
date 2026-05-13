@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface DeviceRepository extends JpaRepository<Device, Integer> {
     List<Device> findByPumpId(Integer pumpId);
     Device findByPumpIdAndType(Integer pumpId, Type type);
-    List<Device> findByConnectId(Integer id);
+    Device findByConnectId(Integer id);
 }

@@ -30,6 +30,7 @@ public class MqttConnectionService {
     private final ConnectionManager connectionManager;
     private final ConnectionRepository connectionRepository;
     private final PumpLogRepository pumpLogRepository;
+    private final FirebaseService firebaseService;
     @Autowired
     public MqttConnectionService(ObjectMapper objectMapper,
                                  SensorDataRepository sensorDataRepository,
@@ -38,7 +39,8 @@ public class MqttConnectionService {
                                  AlertRepository alertRepository,
                                  ConnectionManager connectionManager,
                                  ConnectionRepository connectionRepository,
-                                 PumpLogRepository pumpLogRepository) {
+                                 PumpLogRepository pumpLogRepository,
+                                 FirebaseService firebaseService) {
         this.objectMapper = objectMapper;
         this.sensorDataRepository = sensorDataRepository;
         this.pumpRepository = pumpRepository;
@@ -47,6 +49,7 @@ public class MqttConnectionService {
         this.connectionManager = connectionManager;
         this.connectionRepository = connectionRepository;
         this.pumpLogRepository = pumpLogRepository;
+        this.firebaseService = firebaseService;
     }
     public MqttClient connect(Connection connection) {
         String broker = connection.getAddrBroker();
@@ -67,15 +70,15 @@ public class MqttConnectionService {
             options.setUserName(username);
             options.setPassword(aioKey.toCharArray());
             options.setAutomaticReconnect(true);
-            options.setCleanSession(true);
+            options.setCleanSession(false);
             client.connect(options);
             connectionManager.addConnection(connection.getId(), client);
             client.subscribe(topic, (t, msg) -> {
                 String payload = new String(msg.getPayload());
                 Map<String, Object> data = objectMapper.readValue(payload, Map.class);
                 //refactor this
-                List<Device> devices = this.deviceRepository.findByConnectId(connection.getId());
-                Pump pump = this.pumpRepository.findById(devices.getFirst().getPumpId()).orElse(null);
+                Device devices = this.deviceRepository.findByConnectId(connection.getId());
+                Pump pump = this.pumpRepository.findById(devices.getPumpId()).orElse(null);
                 if (pump == null) {
                     System.out.println("Pump Not Found");
                     return;
@@ -96,9 +99,19 @@ public class MqttConnectionService {
                             .createdAt(LocalDateTime.now())
                             .build();
                     this.sensorDataRepository.save(sensorData);
-                    //logic push notification SensorData
+                    //logic realtime send SensorData
+                    //System.out.println("Sending to Firebase");
+                    firebaseService.sendDataToFirebase(pump.getUserId(),sensorData);
+                    //updateLastSeen for Device
+                    //System.out.println("Sent to Firebase");
+                    devices.setLastSeen(LocalDateTime.now());
+                    this.deviceRepository.save(device);
+                    //System.out.println("Device create Alert");
                     if(value>=pump.getTemperatureMax()) {
                         //logic push notification Alert
+                        firebaseService.sendNotification(pump.getUserId(),"Warning",
+                                "Temperature is greater than Threshold" + value);
+                        //create Alert
                         Alert alert = Alert.builder()
                                 .deviceId(device.getId())
                                 .type(Type.TEMPERATURE)
@@ -111,6 +124,9 @@ public class MqttConnectionService {
                     }
                     if(value<=pump.getTemperatureMin()) {
                         //logic push notification Alert
+                        firebaseService.sendNotification(pump.getUserId(),"Warning",
+                                "Temperature is smaller than Threshold:" + value);
+                        //create Alert
                         Alert alert = Alert.builder()
                                 .deviceId(device.getId())
                                 .type(Type.TEMPERATURE)
@@ -139,9 +155,16 @@ public class MqttConnectionService {
                             .createdAt(LocalDateTime.now())
                             .build();
                     this.sensorDataRepository.save(sensorData);
-                    //logic push notification SensorData
+                    //logic realtime send SensorData
+                    firebaseService.sendDataToFirebase(pump.getUserId(),sensorData);
+                    //updateLastSeen for Device
+                    devices.setLastSeen(LocalDateTime.now());
+                    this.deviceRepository.save(device);
                     if(value<pump.getMoistureThreshold()) {
                         //logic push notification Alert
+                        firebaseService.sendNotification(pump.getUserId(),"Warning",
+                                "Moisture is small than Threshold" + value);
+                        //create Alert
                         Alert alert = Alert.builder()
                                 .deviceId(device.getId())
                                 .type(Type.MOISTURE)
@@ -175,9 +198,18 @@ public class MqttConnectionService {
                             .createdAt(LocalDateTime.now())
                             .build();
                     this.sensorDataRepository.save(sensorData);
-                    //logic push notification SensorData
+
+                    //logic realtime send SensorData
+                    firebaseService.sendDataToFirebase(pump.getUserId(),sensorData);
+                    //updateLastSeen for Device
+                    devices.setLastSeen(LocalDateTime.now());
+                    this.deviceRepository.save(device);
+
                     if(value>=pump.getLightIntensityMax()) {
                         //logic push notification Alert
+                        firebaseService.sendNotification(pump.getUserId(),"Warning",
+                                "Light is greater than Threshold" + value);
+                        //create Alert
                         Alert alert = Alert.builder()
                                 .deviceId(device.getId())
                                 .type(Type.LIGHT)
