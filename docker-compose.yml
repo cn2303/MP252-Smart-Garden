@@ -8,6 +8,9 @@ services:
       - "8080:8080"
     env_file:
       - .env
+    environment:
+      FIREBASE_CONFIG_PATH: /app/secrets/serviceAccountKey.json
     restart: no
     volumes:
       - ./global-bundle.pem:/app/global-bundle.pem
+      - ./secrets:/app/secrets

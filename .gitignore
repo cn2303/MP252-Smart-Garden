@@ -38,3 +38,5 @@ src/.env
 src/main/resources/.env
 
 src/main/resources/serviceAccountKey.json
+secrets/
+*.json
