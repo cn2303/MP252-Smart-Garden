@@ -244,7 +244,7 @@ public class MqttConnectionService {
         //json.put("pump_id",pump.getId());
         String jsonObject = objectMapper.writeValueAsString(json);
         MqttMessage message = new MqttMessage(jsonObject.getBytes());
-        message.setQos(1);
+        message.setQos(0);
         Connection connection = connectionRepository.findById(pump.getConnectionId()).orElse(null);
         if (connection == null) {
             throw new RuntimeException("Connection Not Found");
