@@ -6,6 +6,7 @@ import com.Project.SmartGarden.Repository.*;
 import com.Project.SmartGarden.utils.ConnectionManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 
+@Slf4j
 @Service
 public class MqttConnectionService {
     private final SensorDataRepository sensorDataRepository;
@@ -70,7 +72,7 @@ public class MqttConnectionService {
             options.setUserName(username);
             options.setPassword(aioKey.toCharArray());
             options.setAutomaticReconnect(true);
-            options.setCleanSession(false);
+            options.setCleanSession(true);
             client.connect(options);
             connectionManager.addConnection(connection.getId(), client);
             client.subscribe(topic, (t, msg) -> {
@@ -253,7 +255,9 @@ public class MqttConnectionService {
         if(client == null) {
             throw new RuntimeException(" MQTT Connection Not Found");
         }
+        log.info("Send Message to hardware");
         client.publish(connection.getFeed(), message);
+        log.info("Message Published");
         //Pump Log
         PumpLog pumpLog = PumpLog.builder()
                 .pumpId(pump.getId())
